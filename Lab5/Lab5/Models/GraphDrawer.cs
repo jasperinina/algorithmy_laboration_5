@@ -9,12 +9,12 @@ public static class GraphDrawer
 {
     public static void DrawGraph(Graph graph, Canvas canvas)
     {
+        var lightFontFamily = (FontFamily)Application.Current.Resources["LightFontFamily"];
         canvas.Children.Clear(); // Очищаем Canvas
 
         // Рисуем рёбра
         foreach (var edge in graph.Edges)
         {
-            // Линия для ребра
             var line = new Line
             {
                 X1 = edge.StartNode.X,
@@ -22,7 +22,7 @@ public static class GraphDrawer
                 X2 = edge.EndNode.X,
                 Y2 = edge.EndNode.Y,
                 Stroke = Brushes.Black,
-                StrokeThickness = 2
+                StrokeThickness = 3
             };
             canvas.Children.Add(line);
 
@@ -30,37 +30,58 @@ public static class GraphDrawer
             var label = new TextBlock
             {
                 Text = edge.Weight.ToString(),
-                Foreground = Brushes.Red
+                Foreground = Brushes.Black,
+                FontSize = 14,
+                FontFamily = lightFontFamily,
+                Tag = edge // Связываем текст с объектом ребра
             };
-            Canvas.SetLeft(label, (edge.StartNode.X + edge.EndNode.X) / 2);
-            Canvas.SetTop(label, (edge.StartNode.Y + edge.EndNode.Y) / 2);
+
+            // Устанавливаем положение текста
+            Canvas.SetLeft(label, (edge.StartNode.X + edge.EndNode.X) / 2 - 10);
+            Canvas.SetTop(label, (edge.StartNode.Y + edge.EndNode.Y) / 2 - 10);
             canvas.Children.Add(label);
         }
 
         // Рисуем узлы
         foreach (var node in graph.Nodes)
         {
-            // Круг для узла
+            double ellipseDiameter = 50;
+            double ellipseRadius = ellipseDiameter / 2;
+
             var ellipse = new Ellipse
             {
-                Width = 30,
-                Height = 30,
-                Fill = Brushes.Blue
+                Width = ellipseDiameter,
+                Height = ellipseDiameter,
+                Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(node.FillColor))
             };
-            Canvas.SetLeft(ellipse, node.X - 15); // Центрируем эллипс
-            Canvas.SetTop(ellipse, node.Y - 15); // Центрируем эллипс
+            Canvas.SetLeft(ellipse, node.X - ellipseRadius);
+            Canvas.SetTop(ellipse, node.Y - ellipseRadius);
             canvas.Children.Add(ellipse);
 
-            // Подпись узла (ID)
             var label = new TextBlock
             {
                 Text = node.Id.ToString(),
                 Foreground = Brushes.White,
                 FontWeight = FontWeights.Bold,
-                HorizontalAlignment = HorizontalAlignment.Center
+                FontSize = 14,
+                FontFamily = lightFontFamily
             };
-            Canvas.SetLeft(label, node.X - 10);
-            Canvas.SetTop(label, node.Y - 10);
+
+            var formattedText = new System.Windows.Media.FormattedText(
+                label.Text,
+                System.Globalization.CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
+                label.FontSize,
+                Brushes.Black,
+                new System.Windows.Media.NumberSubstitution(),
+                1);
+
+            double textWidth = formattedText.Width;
+            double textHeight = formattedText.Height;
+
+            Canvas.SetLeft(label, node.X - textWidth / 2);
+            Canvas.SetTop(label, node.Y - textHeight / 2);
             canvas.Children.Add(label);
         }
     }

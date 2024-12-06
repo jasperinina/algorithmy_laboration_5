@@ -5,24 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lab5"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1500">
+        Title="MainWindow" Height="900" Width="1700" ResizeMode="NoResize">
+    
+    <Window.Resources>
+        <!-- Подключение внешнего файла стилей -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UI/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" x:Name="LeftPanelColumn"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1300"/>
         </Grid.ColumnDefinitions>
         
         <!-- Левая часть с радиокнопками -->
-        <Border Background="#F5F5F5" Grid.Column="0" Padding="20, 20,20,0">
+        <Border Background="#F5F5F5" Grid.Column="0" Padding="20, 20,20,0" HorizontalAlignment="Left">
             <StackPanel Name="LeftPanel" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                <TextBlock Text="Выберите задачу" Width="240" Height="24" FontWeight="SemiBold" FontSize="20" 
+                <TextBlock Text="Выберите задачу" Style="{StaticResource HeaderTextBlockStyle}" 
                            Margin="0,0,0,16" HorizontalAlignment="Left"/>
-                <RadioButton Content="Заданние 1" GroupName="AlgorithmType" Width="310" Height="30" HorizontalAlignment="Left" FontWeight="Regular" FontSize="16" 
-                             Margin="0,0,0,10" Checked="Task_1RadioButton_Checked"/>
-                <RadioButton Content="Заданние 2" GroupName="AlgorithmType" Width="300" Height="30" HorizontalAlignment="Left" FontWeight="Regular" FontSize="16" 
-                             Margin="0,0,0,10" />
-                <RadioButton Content="Заданние 3" GroupName="AlgorithmType" Width="300" Height="30" HorizontalAlignment="Left" FontWeight="Regular" FontSize="16" 
-                             Margin="0,0,0,10"  />
+                <RadioButton Content="Задание 1" 
+                             GroupName="AlgorithmType" 
+                             Margin="0,0,0,10" 
+                             Checked="Task_1RadioButton_Checked" 
+                             Style="{StaticResource RadioButtonStyle}" 
+                             HorizontalAlignment="Left"/>
+                <RadioButton Content="Задание 2" 
+                             GroupName="AlgorithmType" 
+                             Margin="0,0,0,10" 
+                             Style="{StaticResource RadioButtonStyle}" 
+                             HorizontalAlignment="Left"/>
+                <RadioButton Content="Задание 3" 
+                             GroupName="AlgorithmType" 
+                             Margin="0,0,0,10" 
+                             Style="{StaticResource RadioButtonStyle}"
+                             HorizontalAlignment="Left"/>
+
 
                 <!-- Динамический контент для каждой страницы -->
                 <ContentControl x:Name="PageContentControl" Margin="0,20,0,0" />
@@ -30,6 +51,6 @@
         </Border>
 
         <!-- Правая часть для отображения контента -->
-        <Frame Name="MainFrame" Margin="0" Grid.Column="1" NavigationUIVisibility="Hidden" />
+        <Frame Name="MainFrame" Margin="0" Grid.Column="1" NavigationUIVisibility="Hidden" Background="White" />
     </Grid>
 </Window>

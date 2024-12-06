@@ -4,14 +4,92 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="clr-namespace:Lab5.Task_1"
+      xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
       mc:Ignorable="d"
-      Title="Graph Editor" Height="600" Width="800">
+      Title="Graph Editor" Height="900" Width="1700">
+    
+    <Page.Resources>
+        <!-- Подключение внешнего файла стилей -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/UI/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid>
+        <!-- Разделение на колонки -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1150" /> <!-- Основное пространство -->
+            <ColumnDefinition Width="150" /> <!-- Правая панель -->
+        </Grid.ColumnDefinitions>
         
         <!-- Канвас для отображения графа -->
-        <Canvas Name="GraphCanvas" Background="White" Margin="10,50,10,10" 
+        <Canvas Grid.Column="0" Name="GraphCanvas" Background="White" Margin="20,20,10,60" 
                 MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_PreviewMouseUp">
             <!-- Узлы и рёбра будут рисоваться здесь -->
         </Canvas>
+        
+        <!-- Правая панель -->
+        <Border Grid.Column="1" Background="#F5F5F5" Padding="0" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,20">
+                <!-- Кнопка "Перемещать" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="MoveNodeButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/moving_icon.svg" Width="40" Height="40"/>
+                        <TextBlock Text="Перемещать" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Добавить узел" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="AddNodeButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/add_node_icon.svg" Width="40" Height="40"/>
+                        <TextBlock Text="Добавить узел" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Удалить узел" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="RemoveNodeButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/delete_node_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Удалить узел" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Добавить ребро" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="AddEdgeButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/add_edge_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Добавить ребро" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Удалить ребро" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="RemoveEdgeButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/delete_edge_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Удалить ребро" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+                
+                <!-- Кнопка "Изменить вес" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="ChangeEdgeWeightButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/change_weight_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Изменить вес" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Сохранить" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="SaveGraphButton_Click" Margin="0,0,0,20">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/save_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Сохранить" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Border>
+        
     </Grid>
 </Page>

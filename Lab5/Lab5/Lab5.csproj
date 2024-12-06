@@ -10,10 +10,44 @@
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="SharpVectors" Version="1.8.4.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="UI\" />
+      <None Remove="UI\Font\EuclidSquare-Bold.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-Bold.ttf" />
+      <None Remove="UI\Font\EuclidSquare-BoldItalic.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-BoldItalic.ttf" />
+      <None Remove="UI\Font\EuclidSquare-Italic.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-Italic.ttf" />
+      <None Remove="UI\Font\EuclidSquare-Light.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-Light.ttf" />
+      <None Remove="UI\Font\EuclidSquare-LightItalic.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-LightItalic.ttf" />
+      <None Remove="UI\Font\EuclidSquare-Medium.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-Medium.ttf" />
+      <None Remove="UI\Font\EuclidSquare-MediumItalic.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-MediumItalic.ttf" />
+      <None Remove="UI\Font\EuclidSquare-Regular.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-Regular.ttf" />
+      <None Remove="UI\Font\EuclidSquare-SemiBold.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-SemiBold.ttf" />
+      <None Remove="UI\Font\EuclidSquare-SemiBoldItalic.ttf" />
+      <Resource Include="UI\Font\EuclidSquare-SemiBoldItalic.ttf" />
+      <None Remove="UI\icon\moving_icon.svg" />
+      <Resource Include="UI\icon\moving_icon.svg" />
+      <None Remove="UI\icon\add_edge_icon.svg" />
+      <Resource Include="UI\icon\add_edge_icon.svg" />
+      <None Remove="UI\icon\add_node_icon.svg" />
+      <Resource Include="UI\icon\add_node_icon.svg" />
+      <None Remove="UI\icon\delete_edge_icon.svg" />
+      <Resource Include="UI\icon\delete_edge_icon.svg" />
+      <None Remove="UI\icon\delete_node_icon.svg" />
+      <Resource Include="UI\icon\delete_node_icon.svg" />
+      <None Remove="UI\icon\save_icon.svg" />
+      <Resource Include="UI\icon\save_icon.svg" />
+      <None Remove="UI\icon\change_weight_icon.svg" />
+      <Resource Include="UI\icon\change_weight_icon.svg" />
     </ItemGroup>
 
 </Project>
