@@ -32,17 +32,20 @@
                              Margin="0,0,0,10" 
                              Checked="Task_1RadioButton_Checked" 
                              Style="{StaticResource RadioButtonStyle}" 
-                             HorizontalAlignment="Left"/>
+                             HorizontalAlignment="Left"
+                             Cursor="Hand"/>
                 <RadioButton Content="Задание 2" 
                              GroupName="AlgorithmType" 
                              Margin="0,0,0,10" 
                              Style="{StaticResource RadioButtonStyle}" 
-                             HorizontalAlignment="Left"/>
+                             HorizontalAlignment="Left"
+                             Cursor="Hand"/>
                 <RadioButton Content="Задание 3" 
                              GroupName="AlgorithmType" 
                              Margin="0,0,0,10" 
                              Style="{StaticResource RadioButtonStyle}"
-                             HorizontalAlignment="Left"/>
+                             HorizontalAlignment="Left"
+                             Cursor="Hand"/>
 
 
                 <!-- Динамический контент для каждой страницы -->

@@ -48,6 +48,8 @@
       <Resource Include="UI\icon\save_icon.svg" />
       <None Remove="UI\icon\change_weight_icon.svg" />
       <Resource Include="UI\icon\change_weight_icon.svg" />
+      <None Remove="UI\icon\clear_icon.svg" />
+      <Resource Include="UI\icon\clear_icon.svg" />
     </ItemGroup>
 
 </Project>

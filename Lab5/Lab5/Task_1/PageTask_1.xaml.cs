@@ -1,10 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using Lab5.Models;
-using Lab5.Models.FileIO;
 using Microsoft.Win32;
 
 namespace Lab5.Task_1;
@@ -239,7 +236,7 @@ public partial class PageTask_1 : Page
     {
         ResetModes(); // Сбрасываем все режимы
         isAddNodeModeActive = true; // Активируем режим добавления узлов
-        MessageBox.Show("Режим добавления узлов активирован! Кликните на канвас, чтобы добавить узел.");
+        MessageBox.Show("Режим добавления узлов активирован! Кликните на поле, чтобы добавить узел.");
     }
 
 
@@ -489,10 +486,38 @@ public partial class PageTask_1 : Page
         isChangeEdgeWeightModeActive = true; // Активируем режим изменения веса рёбра
         MessageBox.Show("Режим изменения веса рёбер активирован! Кликните на вес рёбра, чтобы изменить его.");
     }
+    
+    private void ClearCanvasButton_Click(object sender, RoutedEventArgs e)
+    {
+        ResetModes();
+        // Очищаем все элементы на Canvas
+        GraphCanvas.Children.Clear();
+
+        graph.Nodes.Clear();
+        graph.Edges.Clear();
+    }
 
     private void SaveGraphButton_Click(object sender, RoutedEventArgs e)
     {
         ResetModes(); // Сбрасываем все режимы
-        MessageBox.Show("Заглушка для сохранения графа!");
+
+        var saveFileDialog = new SaveFileDialog
+        {
+            Filter = "CSV Files (*.csv)|*.csv|All Files (*.*)|*.*",
+            Title = "Сохранить граф"
+        };
+
+        if (saveFileDialog.ShowDialog() == true)
+        {
+            try
+            {
+                FileService.SaveGraphToCsv(graph, saveFileDialog.FileName);
+                MessageBox.Show("Граф успешно сохранён!");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении графа: {ex.Message}");
+            }
+        }
     }
 }
