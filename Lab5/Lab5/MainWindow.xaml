@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Lab5"
-        mc:Ignorable="d"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1700" ResizeMode="NoResize">
     
     <Window.Resources>
@@ -17,43 +17,139 @@
     </Window.Resources>
     
     <Grid>
+        <!-- Разделение на колонки -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400" x:Name="LeftPanelColumn"/>
-            <ColumnDefinition Width="1300"/>
+            <ColumnDefinition Width="500"/>
+            <ColumnDefinition Width="1050" /> <!-- Основное пространство -->
+            <ColumnDefinition Width="150" /> <!-- Правая панель -->
         </Grid.ColumnDefinitions>
         
-        <!-- Левая часть с радиокнопками -->
-        <Border Background="#F5F5F5" Grid.Column="0" Padding="20, 20,20,0" HorizontalAlignment="Left">
-            <StackPanel Name="LeftPanel" VerticalAlignment="Stretch" HorizontalAlignment="Left">
-                <TextBlock Text="Выберите задачу" Style="{StaticResource HeaderTextBlockStyle}" 
-                           Margin="0,0,0,16" HorizontalAlignment="Left"/>
-                <RadioButton Content="Задание 1" 
-                             GroupName="AlgorithmType" 
-                             Margin="0,0,0,10" 
-                             Checked="Task_1RadioButton_Checked" 
-                             Style="{StaticResource RadioButtonStyle}" 
-                             HorizontalAlignment="Left"
-                             Cursor="Hand"/>
-                <RadioButton Content="Задание 2" 
-                             GroupName="AlgorithmType" 
-                             Margin="0,0,0,10" 
-                             Style="{StaticResource RadioButtonStyle}" 
-                             HorizontalAlignment="Left"
-                             Cursor="Hand"/>
-                <RadioButton Content="Задание 3" 
-                             GroupName="AlgorithmType" 
-                             Margin="0,0,0,10" 
-                             Style="{StaticResource RadioButtonStyle}"
-                             HorizontalAlignment="Left"
-                             Cursor="Hand"/>
+        <Frame Name="MainFrame" Margin="0" Grid.Column="0" NavigationUIVisibility="Hidden" Background="White" />
+        
+        <Frame Name="MainFrame1" Margin="0,780,0,0" Grid.Column="0" NavigationUIVisibility="Hidden" Background="#F5F5F5" />
+        
+        <Frame Name="MainFrame2" Margin="0,780,-20,0" Grid.Column="1" NavigationUIVisibility="Hidden" Background="#F5F5F5" />
+        
+        <Rectangle Grid.Column="1" Width="2" Height="80" Fill="#E1E1E1" Margin="0,780,-11,0" HorizontalAlignment="Right" VerticalAlignment="Stretch" />
 
+        
+        <StackPanel Grid.Column="0" Margin="20,20,0,0">
+            <!-- Заголовок -->
+            <TextBlock Text="Шаги"
+                       Style="{StaticResource HeaderTextBlockStyle}"
+                       Margin="0,0,0,0"
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"/> 
 
-                <!-- Динамический контент для каждой страницы -->
-                <ContentControl x:Name="PageContentControl" Margin="0,20,0,0" />
+            <!-- TextBox для вывода результатов -->
+            <TextBox Name="OutputTextBox"
+                     Style="{StaticResource OutputTextBoxStyle}"
+                     Height="705"
+                     Width="480"
+                     Margin="0,10,0,0"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"/>
+        </StackPanel>
+        
+        <!-- Заголовок -->
+        <TextBlock Grid.Column="0" 
+                   HorizontalAlignment="Left"
+                   Text="Выберите задачу" 
+                   Style="{StaticResource HeaderTextBlockStyle}" 
+                   Margin="20,780,0,0" />
+
+        <!-- Комбобокс -->
+        <ComboBox Grid.Column="0" 
+                  HorizontalAlignment="Left"
+                  Name="TaskComboBox" 
+                  Style="{StaticResource PopUp}" 
+                  Margin="200,780,0,0" 
+                  SelectionChanged="TaskComboBox_SelectionChanged">
+            <!-- Элементы выпадающего списка -->
+            <ComboBoxItem Content="Обход графа в ширину" />
+            <ComboBoxItem Content="Обход графа в глубину" />
+        </ComboBox>
+        
+        
+        <Button Grid.Column="1" Name="ClearCanvasButton" Content="Загрузить граф" Click="LoadGraphButton_Click" 
+            Style="{StaticResource OverwriteFileButtonStyle}" Width = "300" HorizontalAlignment="Right" Margin="0,780,330,0" />
+        
+        <Button Grid.Column="1" Name="StartButton" Content="Запустить алгоритм" Click="StartAlgorithmButton_Click" 
+                Style="{StaticResource RoundedButtonStyle}" Width = "300" HorizontalAlignment="Right" Margin="0,780,10,0" />
+
+        <!-- Канвас для отображения графа -->
+        <Canvas Grid.Column="1" Name="GraphCanvas" Background="White" Margin="20,20,10,100" 
+                MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_PreviewMouseUp">
+            <!-- Узлы и рёбра будут рисоваться здесь -->
+        </Canvas>
+        
+        <!-- Правая панель -->
+        <Border Grid.Column="2" Background="#F5F5F5" HorizontalAlignment="Center">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,20,0,20">
+                <!-- Кнопка "Перемещать" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="MoveNodeButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/moving_icon.svg" Width="40" Height="40"/>
+                        <TextBlock Text="Перемещать" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Добавить узел" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="AddNodeButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/add_node_icon.svg" Width="40" Height="40"/>
+                        <TextBlock Text="Добавить узел" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Удалить узел" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="RemoveNodeButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/delete_node_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Удалить узел" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Добавить ребро" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="AddEdgeButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/add_edge_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Добавить ребро" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Удалить ребро" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="RemoveEdgeButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/delete_edge_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Удалить ребро" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+                
+                <!-- Кнопка "Изменить вес" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="ChangeEdgeWeightButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/change_weight_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Изменить вес" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+                
+                <!-- Кнопка "Очистить" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="ClearCanvasButton_Click" Margin="0,0,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/clear_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Очистить" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
+
+                <!-- Кнопка "Сохранить" -->
+                <Button Height="68" Width="128" Background="Transparent" BorderThickness="0" Click="SaveGraphButton_Click" Margin="0,140,0,20" Cursor="Hand">
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                        <svgc:SvgViewbox Source="pack://application:,,,/UI/icon/save_icon.svg" Width="40" Height="40" />
+                        <TextBlock Text="Сохранить" FontFamily="{StaticResource LightFontFamily}" FontSize="14" HorizontalAlignment="Center" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
         </Border>
-
-        <!-- Правая часть для отображения контента -->
-        <Frame Name="MainFrame" Margin="0" Grid.Column="1" NavigationUIVisibility="Hidden" Background="White" />
     </Grid>
 </Window>

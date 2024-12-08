@@ -6,41 +6,6 @@
     <FontFamily x:Key="BoldFontFamily">pack://application:,,,/Lab5;component/UI/EuclidSquare-Bold.ttf#Euclid Square</FontFamily>
     <FontFamily x:Key="ItalicFontFamily">pack://application:,,,/Lab5;component/UI/EuclidSquare-Italic.ttf#Euclid Square</FontFamily>
     <FontFamily x:Key="LightFontFamily">pack://application:,,,/Lab5;component/UI/EuclidSquare-Light.ttf#Euclid Square</FontFamily>
-
-
-    <!-- Стиль для RadioButton -->
-    <Style TargetType="RadioButton" x:Key="RadioButtonStyle">
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="Width" Value="300" />
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <Grid Width="30" Height="30">
-                            <Ellipse x:Name="outerCircle" Width="24" Height="24" Stroke="#C3C3C3" StrokeThickness="1" Fill="#F5F5F5"/>
-                            <Ellipse x:Name="innerCircle" Width="16" Height="16" Fill="#1F77B4" Visibility="Collapsed"/>
-                        </Grid>
-                        <TextBlock 
-                            Text="{TemplateBinding Content}" 
-                            FontFamily="{StaticResource RegularFontFamily}" 
-                            Margin="10,0,0,0" 
-                            VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="innerCircle" Property="Visibility" Value="Visible"/>
-                            <Setter TargetName="outerCircle" Property="Stroke" Value="#C3C3C3"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="innerCircle" Property="Visibility" Value="Collapsed"/>
-                            <Setter TargetName="outerCircle" Property="Stroke" Value="#C3C3C3"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     
     <!-- Стиль для главного TextBlock с заголовком -->
     <Style x:Key="HeaderTextBlockStyle" TargetType="TextBlock">
@@ -87,7 +52,8 @@
         <Setter Property="FontFamily" Value="{StaticResource RegularFontFamily}" />
         <Setter Property="FontSize" Value="16" />
         <Setter Property="Padding" Value="10" />
-        <Setter Property="BorderBrush" Value="#C3C3C3" />
+        <Setter Property="BorderBrush" Value="#E1E1E1" />
+        <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Background" Value="#FFFFFF" /> <!-- Задание белого фона -->
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
@@ -97,7 +63,7 @@
                 <ControlTemplate TargetType="TextBox">
                     <Border Background="{TemplateBinding Background}" 
                             BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="1" 
+                            BorderThickness="2" 
                             CornerRadius="10"> <!-- Закругление углов -->
                         <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
                     </Border>
@@ -117,32 +83,6 @@
         <Setter Property="Background" Value="#1F77B4" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="10" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" 
-                            CornerRadius="10"  
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <!-- Стиль для кнопок графика с закругленными углами --> 
-    <Style x:Key="RoundedButtonGraphStyle" TargetType="Button">
-        <Setter Property="Height" Value="40" />
-        <Setter Property="FontFamily" Value="{StaticResource BoldFontFamily}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="Foreground" Value="#000000" />
-        <Setter Property="Background" Value="#F5F5F5" />
-        <Setter Property="BorderBrush" Value="#1F77B4" /> 
-        <Setter Property="BorderThickness" Value="2" />
         <Setter Property="Padding" Value="10" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="Template">
@@ -185,66 +125,13 @@
         </Setter>
     </Style>
     
-    <!-- Стиль для кнопки стоп с закругленными углами --> 
-    <Style x:Key="RoundedButtonStopStyle" TargetType="Button">
-        <Setter Property="Height" Value="40" />
-        <Setter Property="FontFamily" Value="{StaticResource BoldFontFamily}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="Foreground" Value="White" />
-        <Setter Property="Background" Value="#B41F1F" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="10" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" 
-                            CornerRadius="10"  
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    <!-- Стиль для кнопки шагов --> 
-    <Style x:Key="StepsButtonStyle" TargetType="Button">
-        <Setter Property="Height" Value="40" />
-        <Setter Property="FontFamily" Value="{StaticResource BoldFontFamily}" />
-        <Setter Property="FontWeight" Value="SemiBold" />
-        <Setter Property="FontSize" Value="16" />
-        <Setter Property="Foreground" Value="#FFFFFF" />
-        <Setter Property="Background" Value="#000000" />
-        <Setter Property="BorderBrush" Value="#000000" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="10" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}" 
-                            CornerRadius="10"  
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    
     <!-- Стиль для попап файла --> 
     <Style x:Key="PopUp" TargetType="ComboBox">
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="FontFamily" Value="{StaticResource RegularFontFamily}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Height" Value="40"/>
-        <Setter Property="Width" Value="360"/>
+        <Setter Property="Width" Value="300"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -256,7 +143,7 @@
                                 SnapsToDevicePixels="True" 
                                 BorderBrush="#FFFFFF" 
                                 BorderThickness="1"
-                                Width="360">
+                                Width="300">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
