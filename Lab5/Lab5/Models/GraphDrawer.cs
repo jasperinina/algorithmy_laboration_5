@@ -21,8 +21,9 @@ public static class GraphDrawer
                 Y1 = edge.StartNode.Y,
                 X2 = edge.EndNode.X,
                 Y2 = edge.EndNode.Y,
-                Stroke = Brushes.Black,
-                StrokeThickness = 3
+                Stroke = Brushes.Black, // Начальный цвет
+                StrokeThickness = 3,
+                Tag = edge // Привязка ребра к линии
             };
             canvas.Children.Add(line);
 
@@ -33,7 +34,7 @@ public static class GraphDrawer
                 Foreground = Brushes.Black,
                 FontSize = 14,
                 FontFamily = lightFontFamily,
-                Tag = edge // Связываем текст с объектом ребра
+                Tag = edge // Привязка веса к ребру
             };
 
             // Устанавливаем положение текста

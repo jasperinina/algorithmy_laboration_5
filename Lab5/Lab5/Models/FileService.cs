@@ -7,34 +7,6 @@ namespace Lab5.Models;
 
 public class FileService
 {
-    public static void SaveGraphToFile(Graph graph, string filePath)
-    {
-        // Обновляем идентификаторы узлов в рёбрах
-        foreach (var edge in graph.Edges)
-        {
-            edge.StartNodeId = edge.StartNode.Id;
-            edge.EndNodeId = edge.EndNode.Id;
-        }
-
-        var json = JsonConvert.SerializeObject(graph, Formatting.Indented);
-        File.WriteAllText(filePath, json);
-    }
-
-    public static Graph LoadGraphFromFile(string filePath)
-    {
-        var json = File.ReadAllText(filePath);
-        var graph = JsonConvert.DeserializeObject<Graph>(json);
-
-        // Восстанавливаем ссылки на объекты Node
-        foreach (var edge in graph.Edges)
-        {
-            edge.StartNode = graph.Nodes.FirstOrDefault(n => n.Id == edge.StartNodeId);
-            edge.EndNode = graph.Nodes.FirstOrDefault(n => n.Id == edge.EndNodeId);
-        }
-
-        return graph;
-    }
-    
     // Метод для загрузки графа из CSV (матрицы смежности)
     public static Graph LoadGraphFromCsv(string filePath)
     {

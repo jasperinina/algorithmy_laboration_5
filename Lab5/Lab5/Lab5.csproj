@@ -52,4 +52,10 @@
       <Resource Include="UI\icon\clear_icon.svg" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Task_2\Files\" />
+      <Folder Include="Task_3\Files\" />
+      <Folder Include="Task_4\Files\" />
+    </ItemGroup>
+
 </Project>
