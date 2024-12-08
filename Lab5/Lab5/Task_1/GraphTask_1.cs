@@ -29,7 +29,7 @@ public static class GraphTask_1
 
             // Подсвечиваем текущий узел
             appendToOutput($"Посещаем узел {currentNode.Id}.");
-            highlightNode(currentNode, "#CC5747"); // Цвет: красный
+            highlightNode(currentNode, "#B41F21"); // Цвет: красный
             await Task.Delay(delay); // Задержка для визуализации
 
             visited.Add(currentNode.Id); // Помечаем узел как посещённый
@@ -37,7 +37,7 @@ public static class GraphTask_1
 
             // Закрашиваем узел как завершённый
             appendToOutput($"Посетили узел {currentNode.Id}.");
-            highlightNode(currentNode, "#FFA500"); // Цвет: оранжевый
+            highlightNode(currentNode, "#1FB43A"); // Цвет: зеленый
             await Task.Delay(delay); // Задержка для визуализации
 
             // Обрабатываем соседей текущего узла
@@ -52,7 +52,7 @@ public static class GraphTask_1
             {
                 // Подсвечиваем ребро
                 appendToOutput($"Переход по ребру к узлу {neighbor.Neighbor.Id} (вес ребра: {neighbor.Weight}).");
-                highlightEdge(neighbor.Edge, "#CC5747"); // Цвет: красный
+                highlightEdge(neighbor.Edge, "#B41F21"); // Цвет: красный
                 await Task.Delay(delay); // Задержка для визуализации
 
                 // Добавляем узел в очередь
@@ -104,11 +104,11 @@ public static class GraphTask_1
 
         // Подсвечиваем текущий узел
         appendToOutput($"Посещаем узел {currentNode.Id}.");
-        highlightNode(currentNode, "#CC5747"); // Красный цвет
+        highlightNode(currentNode, "#B41F21"); // Красный цвет
         await Task.Delay(delay);
 
         // Закрашиваем узел как завершённый
-        highlightNode(currentNode, "#FFA500"); // Оранжевый цвет
+        highlightNode(currentNode, "#1FB43A"); // Зеленый цвет
         await Task.Delay(delay);
 
         // Получаем соседей, отсортированных по весу рёбер
@@ -126,7 +126,7 @@ public static class GraphTask_1
             appendToOutput($"Переход по ребру к узлу {neighbor.Neighbor.Id} (вес ребра: {neighbor.Weight}).");
 
             // Подсвечиваем ребро
-            highlightEdge(neighbor.Edge, "#CC5747"); // Красный цвет
+            highlightEdge(neighbor.Edge, "#B41F21"); // Красный цвет
             await Task.Delay(delay);
 
             await DepthFirstSearchRecursive(graph, neighbor.Neighbor, visited, traversalOrder, appendToOutput,
