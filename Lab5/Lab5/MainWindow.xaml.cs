@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Lab5.Models;
 using Lab5.Task_1;
+using Lab5.Task_2;
 using Microsoft.Win32;
 
 namespace Lab5;
@@ -75,6 +76,17 @@ public partial class MainWindow : Window
                     ResetModes();
                     selectedStartNode = null;
                 }
+                break;
+            case "Поиск максимального потока":
+                selectedStartNode = graph.Nodes[0];
+                Node selectedEndNode = graph.Nodes.Last();
+
+                OutputTextBox.Text = string.Empty;
+                MaxTrafficCapacity maxTrafficCapacity = new MaxTrafficCapacity(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                await maxTrafficCapacity.FordFulkerson();
+                ResetModes();
+                selectedStartNode = null;
+                selectedEndNode = null;
                 break;
 
             default:
