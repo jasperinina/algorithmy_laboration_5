@@ -1,10 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Lab5.Models;
 using Lab5.Task_1;
+using Lab5.Task_3;
+using Lab5.Task_4;
 using Microsoft.Win32;
 
 namespace Lab5;
@@ -30,7 +33,9 @@ public partial class MainWindow : Window
     private bool isChangeEdgeWeightModeActive = false; // Флаг режима изменения веса рёбра
 
     private bool isSelectStartNodeActive = false; // Флаг выбора стартовой вершины
+    private bool isSelectEndNodeActive = false; // Флаг выбора конечной вершины
     private Node selectedStartNode; // Выбранная стартовая вершина
+    private Node selectedEndNode; // Выбранная конечная вершина
 
     private void TaskComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
@@ -76,6 +81,34 @@ public partial class MainWindow : Window
                     selectedStartNode = null;
                 }
                 break;
+            case "Поиск кратчайшего пути":
+                if (selectedStartNode == null)
+                {
+                    EnableStartNodeSelectionMode();
+                }
+                else if (selectedEndNode == null)
+                {
+                    EnableEndNodeSelectionMode();
+                }
+                else
+                {
+                    await GraphTask_4.VisualizeMinWay(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                    ResetModes();
+                    selectedStartNode = null;
+                    selectedEndNode = null;
+                }
+                break;
+            case "Построение минимального остовного дерева":
+                if (selectedStartNode == null)
+                {
+                    EnableStartNodeSelectionMode();
+                }
+                else
+                {
+                    await GraphTask_3.VisualizePrim(graph, selectedStartNode, AppendToOutput, ChangeNodeColor, HighlightEdge, 500);
+                    selectedStartNode = null;
+                }
+                break;
 
             default:
                 OutputTextBox.Text = "Неизвестный алгоритм. Пожалуйста, выберите корректный алгоритм.";
@@ -87,7 +120,11 @@ public partial class MainWindow : Window
     {
         if (isSelectStartNodeActive)
         {
-            Canvas_MouseDown_SelectStartNode(sender, e); // Режим выбора стартовой вершины
+            Canvas_MouseDown_SelectNode(sender, e); // Режим выбора стартовой вершины
+        }
+        else if (isSelectEndNodeActive)
+        {
+            Canvas_MouseDown_SelectNode(sender, e); // Режим выбора конечной вершины вершины
         }
         else if (isMoveModeActive)
         {
@@ -128,8 +165,9 @@ public partial class MainWindow : Window
         isRemoveNodeModeActive = false;
         isAddEdgeModeActive = false;
         isRemoveEdgeModeActive = false;
-        isSelectStartNodeActive = false; 
-        
+        isSelectStartNodeActive = false;
+        isSelectEndNodeActive = false;
+
         ResetGraphColors();
     }
     
@@ -142,8 +180,14 @@ public partial class MainWindow : Window
         isSelectStartNodeActive = true;
         OutputTextBox.Text = "Кликните на узел, чтобы выбрать стартовую вершину.";
     }
+    private void EnableEndNodeSelectionMode()
+    {
+        ResetModes(); // Сбрасываем другие режимы
+        isSelectEndNodeActive = true;
+        OutputTextBox.Text = "Кликните на узел, чтобы выбрать конечную вершину.";
+    }
 
-    private async void Canvas_MouseDown_SelectStartNode(object sender, MouseButtonEventArgs e)
+    private async void Canvas_MouseDown_SelectNode(object sender, MouseButtonEventArgs e)
     {
         var position = e.GetPosition(GraphCanvas);
 
@@ -154,27 +198,42 @@ public partial class MainWindow : Window
 
         if (node != null)
         {
-            selectedStartNode = node;
-            //OutputTextBox.Text = $"Выбрана стартовая вершина: {node.Id}.";
-
-            // После выбора узла запускаем соответствующий алгоритм
+            if (!isSelectEndNodeActive)
+            {
+                selectedStartNode = node;
+                OutputTextBox.Text = $"Выбрана стартовая вершина: {node.Id}.";
+            }
+            else
+            {
+                selectedEndNode = node;
+                OutputTextBox.Text = $"Выбрана конечная вершина: {node.Id}.";
+            }
+            // После выбора узлов запускаем соответствующий алгоритм
             switch (selectedAlgorithm)
             {
+                case "Построение минимального остовного дерева":
+                    await GraphTask_3.VisualizePrim(graph, selectedStartNode, AppendToOutput, ChangeNodeColor, HighlightEdge, 500);
+                    break;
                 case "Обход графа в ширину":
                     await GraphTask_1.VisualizeWeightedBreadthFirstSearch(graph, selectedStartNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                    ResetModes();
                     break;
 
                 case "Обход графа в глубину":
                     await GraphTask_1.VisualizeWeightedDepthFirstSearch(graph, selectedStartNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                    ResetModes();
+                    break;
+                case "Поиск кратчайшего пути":
+                    EnableEndNodeSelectionMode(); // Переключаемся на выбор конечного узла
+                    await GraphTask_4.VisualizeMinWay(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
                     break;
 
                 default:
                     OutputTextBox.Text = "Неизвестный алгоритм. Пожалуйста, выберите корректный алгоритм.";
                     break;
             }
-
-            ResetModes();
             selectedStartNode = null;
+            selectedEndNode = null;
         }
         else
         {
@@ -207,7 +266,12 @@ public partial class MainWindow : Window
     private void HighlightNode(Node node, string color)
     {
         node.FillColor = color; // Устанавливаем цвет узла
-        GraphDrawer.DrawGraph(graph, GraphCanvas); // Перерисовываем граф
+        GraphDrawer.DrawGraph(graph, GraphCanvas);
+    }
+    private void ChangeNodeColor(Node node, string color)
+    {
+        node.FillColor = color; // Устанавливаем цвет узла
+        GraphDrawer.DrawOnlyNodes(graph, GraphCanvas);
     }
 
     private void ResetHighlightedNode()
@@ -219,7 +283,7 @@ public partial class MainWindow : Window
             GraphDrawer.DrawGraph(graph, GraphCanvas); // Перерисовываем граф
         }
     }
-    
+
     private void HighlightEdge(Edge edge, string color)
     {
         // Ищем объект Line, связанный с этим ребром
@@ -233,7 +297,6 @@ public partial class MainWindow : Window
         }
     }
 
-    
     // Кнопки для редактирования графа
 
     // Обработчик для кнопки "Загрузить граф"
