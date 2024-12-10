@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using Lab5.Models;
 using Lab5.Task_1;
+using Lab5.Task_2;
 using Lab5.Task_3;
 using Lab5.Task_4;
 using Microsoft.Win32;
@@ -81,6 +82,24 @@ public partial class MainWindow : Window
                     selectedStartNode = null;
                 }
                 break;
+            case "Поиск максимального потока":
+                if (selectedStartNode == null)
+                {
+                    EnableStartNodeSelectionMode();
+                }
+                else if (selectedEndNode == null)
+                {
+                    EnableEndNodeSelectionMode();
+                }
+                else
+                {
+                    MaxTrafficCapacity maxTrafficCapacity = new MaxTrafficCapacity(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                    await maxTrafficCapacity.FordFulkerson();
+                    ResetModes();
+                    selectedStartNode = null;
+                    selectedEndNode = null;
+                }
+                break;
             case "Поиск кратчайшего пути":
                 if (selectedStartNode == null)
                 {
@@ -108,7 +127,6 @@ public partial class MainWindow : Window
                     await GraphTask_3.VisualizePrim(graph, selectedStartNode, AppendToOutput, ChangeNodeColor, HighlightEdge, 500);
                     selectedStartNode = null;
                 }
-                break;
 
             default:
                 OutputTextBox.Text = "Неизвестный алгоритм. Пожалуйста, выберите корректный алгоритм.";
@@ -214,6 +232,7 @@ public partial class MainWindow : Window
                 case "Построение минимального остовного дерева":
                     await GraphTask_3.VisualizePrim(graph, selectedStartNode, AppendToOutput, ChangeNodeColor, HighlightEdge, 500);
                     break;
+
                 case "Обход графа в ширину":
                     await GraphTask_1.VisualizeWeightedBreadthFirstSearch(graph, selectedStartNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
                     ResetModes();
@@ -223,9 +242,18 @@ public partial class MainWindow : Window
                     await GraphTask_1.VisualizeWeightedDepthFirstSearch(graph, selectedStartNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
                     ResetModes();
                     break;
+
+                case "Поиск максимального потока":
+                    EnableEndNodeSelectionMode(); // Переключаемся на выбор конечного узла
+                    MaxTrafficCapacity maxTrafficCapacity = new MaxTrafficCapacity(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                    await maxTrafficCapacity.FordFulkerson();
+                    ResetModes();
+                    break;
+
                 case "Поиск кратчайшего пути":
                     EnableEndNodeSelectionMode(); // Переключаемся на выбор конечного узла
                     await GraphTask_4.VisualizeMinWay(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
+                    ResetModes();
                     break;
 
                 default:

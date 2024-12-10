@@ -68,6 +68,7 @@ mc:Ignorable="d"
             <!-- Элементы выпадающего списка -->
             <ComboBoxItem Content="Обход графа в ширину" />
             <ComboBoxItem Content="Обход графа в глубину" />
+            <ComboBoxItem Content="Поиск максимального потока" />
             <ComboBoxItem Content="Поиск кратчайшего пути" />
             <ComboBoxItem Content="Построение минимального остовного дерева"/>
         </ComboBox>
