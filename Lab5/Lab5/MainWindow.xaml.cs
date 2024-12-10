@@ -127,7 +127,7 @@ public partial class MainWindow : Window
                     await GraphTask_3.VisualizePrim(graph, selectedStartNode, AppendToOutput, ChangeNodeColor, HighlightEdge, 500);
                     selectedStartNode = null;
                 }
-
+                break;
             default:
                 OutputTextBox.Text = "Неизвестный алгоритм. Пожалуйста, выберите корректный алгоритм.";
                 break;
@@ -219,49 +219,14 @@ public partial class MainWindow : Window
             if (!isSelectEndNodeActive)
             {
                 selectedStartNode = node;
-                OutputTextBox.Text = $"Выбрана стартовая вершина: {node.Id}.";
+                OutputTextBox.Text = $"Выбрана стартовая вершина: {node.Id}.\n";
             }
             else
             {
                 selectedEndNode = node;
-                OutputTextBox.Text = $"Выбрана конечная вершина: {node.Id}.";
+                OutputTextBox.Text = $"Выбрана конечная вершина: {node.Id}.\n";
             }
-            // После выбора узлов запускаем соответствующий алгоритм
-            switch (selectedAlgorithm)
-            {
-                case "Построение минимального остовного дерева":
-                    await GraphTask_3.VisualizePrim(graph, selectedStartNode, AppendToOutput, ChangeNodeColor, HighlightEdge, 500);
-                    break;
-
-                case "Обход графа в ширину":
-                    await GraphTask_1.VisualizeWeightedBreadthFirstSearch(graph, selectedStartNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
-                    ResetModes();
-                    break;
-
-                case "Обход графа в глубину":
-                    await GraphTask_1.VisualizeWeightedDepthFirstSearch(graph, selectedStartNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
-                    ResetModes();
-                    break;
-
-                case "Поиск максимального потока":
-                    EnableEndNodeSelectionMode(); // Переключаемся на выбор конечного узла
-                    MaxTrafficCapacity maxTrafficCapacity = new MaxTrafficCapacity(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
-                    await maxTrafficCapacity.FordFulkerson();
-                    ResetModes();
-                    break;
-
-                case "Поиск кратчайшего пути":
-                    EnableEndNodeSelectionMode(); // Переключаемся на выбор конечного узла
-                    await GraphTask_4.VisualizeMinWay(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
-                    ResetModes();
-                    break;
-
-                default:
-                    OutputTextBox.Text = "Неизвестный алгоритм. Пожалуйста, выберите корректный алгоритм.";
-                    break;
-            }
-            selectedStartNode = null;
-            selectedEndNode = null;
+            StartAlgorithmButton_Click(sender, e);
         }
         else
         {
