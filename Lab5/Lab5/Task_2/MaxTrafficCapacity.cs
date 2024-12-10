@@ -56,6 +56,7 @@ namespace Lab5.Task_2
                 if (startNode >= 0 && startNode < NumberOfVertices && endNode >= 0 && endNode < NumberOfVertices)
                 {
                     result[startNode, endNode] = edge.Weight; // Устанавливаем вес ребра в матрице
+                    result[endNode, startNode] = edge.Weight;
                 }
 
             }
