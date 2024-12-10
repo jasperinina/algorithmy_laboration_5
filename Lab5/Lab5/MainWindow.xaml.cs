@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection.Emit;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -111,8 +112,7 @@ public partial class MainWindow : Window
                 }
                 else
                 {
-                    await GraphTask_4.VisualizeMinWay(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
-                    ResetModes();
+                    await GraphTask_4.VisualizeMinWay(GraphCanvas, graph, selectedStartNode, selectedEndNode, AppendToOutput, ChangeNodeColor, HighlightEdge, UpdateLabel, 500);
                     selectedStartNode = null;
                     selectedEndNode = null;
                 }
@@ -233,7 +233,7 @@ public partial class MainWindow : Window
             OutputTextBox.Text = "Пожалуйста, кликните на узел!";
         }
     }
-    
+
 
     // Методы для визуализации алгоритмов
     private void ResetGraphColors()
@@ -255,7 +255,7 @@ public partial class MainWindow : Window
         // Перерисовываем граф
         GraphDrawer.DrawGraph(graph, GraphCanvas);
     }
-    
+
     private void HighlightNode(Node node, string color)
     {
         node.FillColor = color; // Устанавливаем цвет узла
@@ -289,11 +289,25 @@ public partial class MainWindow : Window
             line.Stroke = new SolidColorBrush((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(color));
         }
     }
+    public void UpdateLabel(Canvas canvas, Node node, string newText)
+    {
+        // Найти все TextBlock'и на холсте
+        var labels = canvas.Children.OfType<TextBlock>().ToList();
 
-    // Кнопки для редактирования графа
+        // Найти TextBlock, связанный с узлом (по Tag)
+        var label = labels.FirstOrDefault(tb => tb.Tag != null && tb.Tag.ToString() == node.Id.ToString());
 
-    // Обработчик для кнопки "Загрузить граф"
-    private void LoadGraphButton_Click(object sender, RoutedEventArgs e)
+        if (label != null)
+        {
+            // Обновляем текст метки
+            label.Text = newText;
+        }
+    }
+
+        // Кнопки для редактирования графа
+
+        // Обработчик для кнопки "Загрузить граф"
+        private void LoadGraphButton_Click(object sender, RoutedEventArgs e)
     {
         // Открытие диалога выбора файла
         var openFileDialog = new OpenFileDialog

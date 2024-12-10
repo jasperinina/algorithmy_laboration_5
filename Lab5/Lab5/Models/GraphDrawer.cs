@@ -131,4 +131,69 @@ public static class GraphDrawer
             canvas.Children.Add(label);
         }
     }
+    public static void DrawDistance(Graph graph, Canvas canvas)
+    {
+        var lightFontFamily = (FontFamily)Application.Current.Resources["LightFontFamily"];
+        foreach (var node in graph.Nodes)
+        {
+                var label = new TextBlock
+                {
+                    Text = "∞",
+                    Foreground = Brushes.Red,
+                    FontWeight = FontWeights.Bold,
+                    FontSize = 14,
+                    FontFamily = lightFontFamily,
+                    Tag = node.Id
+                };
+
+            var formattedText = new System.Windows.Media.FormattedText(
+                label.Text,
+                System.Globalization.CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
+                label.FontSize,
+                Brushes.Black,
+                new System.Windows.Media.NumberSubstitution(),
+                1);
+
+            double textWidth = formattedText.Width;
+            double textHeight = formattedText.Height;
+
+            Canvas.SetLeft(label, node.X - textWidth / 2);
+            Canvas.SetTop(label, node.Y - textHeight / 2 - 40);
+            canvas.Children.Add(label);
+        }
+    }
+    public static void UpdateDistance(Graph graph, Canvas canvas, Dictionary<int, int> distance)
+    {
+        var lightFontFamily = (FontFamily)Application.Current.Resources["LightFontFamily"];
+        foreach (var node in graph.Nodes)
+        {
+            var label = new TextBlock
+            {
+                Text = "∞",
+                Foreground = Brushes.Red,
+                FontWeight = FontWeights.Bold,
+                FontSize = 14,
+                FontFamily = lightFontFamily
+            };
+
+            var formattedText = new System.Windows.Media.FormattedText(
+                label.Text,
+                System.Globalization.CultureInfo.InvariantCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(label.FontFamily, label.FontStyle, label.FontWeight, label.FontStretch),
+                label.FontSize,
+                Brushes.Black,
+                new System.Windows.Media.NumberSubstitution(),
+                1);
+
+            double textWidth = formattedText.Width;
+            double textHeight = formattedText.Height;
+
+            Canvas.SetLeft(label, node.X - textWidth / 2);
+            Canvas.SetTop(label, node.Y - textHeight / 2 - 40);
+            canvas.Children.Add(label);
+        }
+    }
 }
