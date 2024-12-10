@@ -204,7 +204,7 @@
                                     BorderBrush="#FFFFFF" 
                                     BorderThickness="1" 
                                     CornerRadius="10"
-                                    Width="360">
+                                    Width="300">
                                 <ScrollViewer Margin="4">
                                     <!-- ItemsPresenter для элементов списка -->
                                     <ItemsPresenter/>
