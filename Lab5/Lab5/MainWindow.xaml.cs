@@ -94,8 +94,8 @@ public partial class MainWindow : Window
                 }
                 else
                 {
-                    //MaxTrafficCapacity maxTrafficCapacity = new MaxTrafficCapacity(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge, 500);
-                    //await maxTrafficCapacity.FordFulkerson();
+                    MaxTrafficCapacity maxTrafficCapacity = new MaxTrafficCapacity(graph, selectedStartNode, selectedEndNode, AppendToOutput, HighlightNode, HighlightEdge);
+                    await maxTrafficCapacity.FordFulkerson();
                     ResetModes();
                     selectedStartNode = null;
                     selectedEndNode = null;

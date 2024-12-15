@@ -21,6 +21,8 @@ namespace Lab5.Task_2
         private Action<string> AppendToOutput;
         private Action<Node, string> HighlightNode;
         private Action<Edge, string> HighlightEdge;
+        private string colorForHighlight = "#B41F21";
+
         private int Delay;
 
         private Node StartNode;
@@ -58,7 +60,6 @@ namespace Lab5.Task_2
                     result[startNode, endNode] = edge.Weight; // Устанавливаем вес ребра в матрице
                     result[endNode, startNode] = edge.Weight;
                 }
-
             }
 
             return result;
@@ -128,42 +129,52 @@ namespace Lab5.Task_2
                 int path_flow = int.MaxValue; // переменная для минимального потока в конкретном пути
                 string outputPath = "Найден путь: ";
 
-                // Говнокод для покраски пути
-                for (int i = 0; i < Graph.Nodes.Count; i++) // покрас узлов
-                {
-                    if (paths.Contains(Graph.Nodes[i].Id - 1) || Graph.Nodes[i].Id - 1 == End)
-                    {
-                        HighlightNode(Graph.Nodes[i], "#B41F21");
-                    }
-                }
-                for (int i = 0; i < paths.Length - 1; i++) // покрас путей
-                {
-                    foreach (var e in Graph.Edges)
-                    {
-                        if (e.StartNode.Id - 1 == paths[i] && e.EndNode.Id - 1 == paths[i + 1])
-                        {
-                            HighlightEdge(e, "#B41F21");
-                        }
-                        if (e.StartNode.Id - 1 == paths[paths.Length - 1] && e.EndNode.Id - 1 == End)
-                        {
-                            HighlightEdge(e, "#B41F21");
-                        }
-                    }
-                }
-
                 outputPath += ((End + 1) + " <- ");
+
+                int prevNode = End;
+
+                // Списки вершин и ребер для покраски
+                List<Edge> edgesToHighlight = new List<Edge>();
+                List<Node> nodesToHighlight = new List<Node>();
 
                 for (v = End; v != Start; v = paths[v])
                 {
                     u = paths[v];
                     path_flow = Math.Min(path_flow, rGraph[u, v]);
 
+                    nodesToHighlight.Add(Graph.Nodes[u]);
+
+                    foreach (var e in Graph.Edges)
+                    {
+                        if (e.StartNode.Id - 1 == prevNode && e.EndNode.Id - 1 == u
+                            || e.EndNode.Id - 1 == prevNode && e.StartNode.Id - 1 == u)
+                        {
+                            edgesToHighlight.Add(e);
+                        }
+                    }
                     // Выводим путь
+                    prevNode = u;
                     outputPath += ((u + 1) + " <- ");
                 }
 
+                nodesToHighlight.Add(EndNode);
+
                 outputPath = outputPath[0..(outputPath.Length - 3)];
                 AppendToOutput(outputPath);
+
+                // Покрас вершин
+                foreach (Node node in nodesToHighlight)
+                {
+                    HighlightNode(node, colorForHighlight);
+                }
+
+                // Покрас ребер
+                foreach (Edge e in edgesToHighlight)
+                {
+                    HighlightEdge(e, colorForHighlight);
+                }
+                edgesToHighlight.Clear();
+                nodesToHighlight.Clear();
 
                 await Task.Delay(Delay);
 
@@ -179,6 +190,8 @@ namespace Lab5.Task_2
                 AppendToOutput($"Добавляем поток пути в общую сумму: {max_flow} + {path_flow} = {max_flow + path_flow}");
                 max_flow += path_flow;
                 AppendToOutput($"Теперь максимальный поток = {max_flow}" + "\n");
+
+                await Task.Delay(Delay);
 
                 // Покрас узлов в обычный цвет
                 for (int i = 0; i < Graph.Nodes.Count; i++)
