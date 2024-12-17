@@ -1,2 +1,2 @@
-Отчет -
-EXE - 
+Отчет - https://docs.google.com/document/d/1E0yaaqbc_nCH78aigssYh-UrkALWiSjP/edit?usp=sharing&ouid=118097748747170924070&rtpof=true&sd=true
+EXE - https://drive.google.com/drive/folders/1Rc1YGmHUXqdC_1JFq4oCQwmD9xCwphyr?dmr=1&ec=wgc-drive-hero-goto
