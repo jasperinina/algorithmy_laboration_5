@@ -6,7 +6,11 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <UseWPF>true</UseWPF>
+        <PublishSingleFile>true</PublishSingleFile> <!-- Указывает, что приложение должно быть скомпилировано в один файл -->
+        <SelfContained>true</SelfContained> <!-- Указывает, что все зависимости будут включены в EXE -->
+        <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
+    
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -50,13 +54,6 @@
       <Resource Include="UI\icon\change_weight_icon.svg" />
       <None Remove="UI\icon\clear_icon.svg" />
       <Resource Include="UI\icon\clear_icon.svg" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Task_2\Files\" />
-      <Folder Include="Task_2\ModelsOriented\" />
-      <Folder Include="Task_3\Files\" />
-      <Folder Include="Task_4\Files\" />
     </ItemGroup>
 
 </Project>
